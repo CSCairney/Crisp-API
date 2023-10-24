@@ -1,27 +1,23 @@
 {
   "name": "crisp-api",
   "version": "1.0.0",
-  "type": "module",
-  "description": "API for Crisp weather app",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "node app.js"
+    "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CSCairney/Crisp-API.git"
-  },
-  "author": "Charles Cairney",
+  "author": "CSCairney",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/CSCairney/Crisp-API/issues"
-  },
-  "homepage": "https://github.com/CSCairney/Crisp-API#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
-    "prettier": "^3.0.3"
+    "ajv": "8.12.0",
+    "cors": "2.8.5",
+    "express": "4.18.2",
+    "jsonwebtoken": "9.0.0",
+    "morgan": "1.10.0",
+    "sequelize": "6.31.1",
+    "sqlite3": "5.1.6"
+  },
+  "devDependencies": {
+    "prettier": "2.8.8"
   }
 }
