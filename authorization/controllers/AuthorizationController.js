@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-
 const UserModel = require("../../common/models/User");
 
-const { roles, jwtSecret, jwtExpirationInSeconds } = require("../../config");
+const { roles } = require("../../config");
+const jwtSecret = process.env.JWT_SECRET;
+const jwtExpirationInSeconds = process.env.JWT_EXPIRATION_SECONDS;
 
-// Generates an Access Token using username and userId for the user's authentication
 const generateAccessToken = (username, userId) => {
   return jwt.sign(
     {
@@ -19,14 +19,9 @@ const generateAccessToken = (username, userId) => {
   );
 };
 
-// Encrypts the password using SHA256 Algorithm, for enhanced security of the password
 const encryptPassword = (password) => {
-  // We will hash the password using SHA256 Algorithm before storing in the DB
-  // Creating SHA-256 hash object
   const hash = crypto.createHash("sha256");
-  // Update the hash object with the string to be encrypted
   hash.update(password);
-  // Get the encrypted value in hexadecimal format
   return hash.digest("hex");
 };
 
@@ -35,18 +30,12 @@ module.exports = {
     const payload = req.body;
 
     let encryptedPassword = encryptPassword(payload.password);
-    let role = payload.role;
-
-    if (!role) {
-      role = roles.USER;
-    }
+    let role = payload.role || roles.USER; // Default role to USER if not provided
 
     UserModel.createUser(
       Object.assign(payload, { password: encryptedPassword, role })
     )
       .then((user) => {
-        // Generating an AccessToken for the user, which will be
-        // required in every subsequent request.
         const accessToken = generateAccessToken(payload.username, user.id);
 
         return res.status(200).json({
@@ -70,8 +59,6 @@ module.exports = {
 
     UserModel.findUser({ username })
       .then((user) => {
-        // IF user is not found with the given username
-        // THEN Return user not found error
         if (!user) {
           return res.status(400).json({
             status: false,
@@ -83,8 +70,6 @@ module.exports = {
 
         const encryptedPassword = encryptPassword(password);
 
-        // IF Provided password does not match with the one stored in the DB
-        // THEN Return password mismatch error
         if (user.password !== encryptedPassword) {
           return res.status(400).json({
             status: false,
@@ -94,8 +79,6 @@ module.exports = {
           });
         }
 
-        // Generating an AccessToken for the user, which will be
-        // required in every subsequent request.
         const accessToken = generateAccessToken(user.username, user.id);
 
         return res.status(200).json({

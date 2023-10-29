@@ -1,7 +1,7 @@
 module.exports = {
-  port: 3000,
-  jwtSecret: '!!CryptoCat@!!',
-  jwtExpirationInSeconds: 60 * 60, // 1 hour
+  port: process.env.PORT || 3000,
+  jwtSecret: process.env.JWT_SECRET || '!!CryptoCat@!!',
+  jwtExpirationInSeconds: process.env.JWT_EXPIRATION || 3600, // 1 hour
   roles: {
     USER: 'user',
     ADMIN: 'admin'
@@ -11,4 +11,4 @@ module.exports = {
     EURO: 'euro',
     INR: 'inr'
   }
-}
+};
