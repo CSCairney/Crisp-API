@@ -42,7 +42,18 @@ const UserModel = {
 
 module.exports = {
   initialise: (sequelize) => {
-    this.model = sequelize.define("user", UserModel);
+    this.model = sequelize.define("user", UserModel, {
+      // don't add the timestamp attributes (updatedAt, createdAt)
+      timestamps: false,
+
+      // If you don't want createdAt
+      createdAt: false,
+
+      // If you don't want updatedAt
+      updatedAt: false,
+      
+      // Your other configuration here
+    });
   },
 
   createUser: (user) => {
@@ -63,13 +74,13 @@ module.exports = {
 
   findAllUsers: (query) => {
     return this.model.findAll({
-      where: query
+      where: query,
     });
   },
 
   deleteUser: (query) => {
     return this.model.destroy({
-      where: query
+      where: query,
     });
-  }
+  },
 };

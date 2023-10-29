@@ -16,10 +16,10 @@ module.exports = {
     age: {
       type: 'number'
     },
-    firstName: {
+    first_name: {
       type: 'string'
     },
-    lastName: {
+    last_name: {
       type: 'string'
     },
     role: {
@@ -32,8 +32,8 @@ module.exports = {
     'email',
     'password',
     'age',
-    'firstName',
-    'lastName'
+    'first_name',
+    'last_name'
   ],
   additionalProperties: false
 };
