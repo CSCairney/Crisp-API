@@ -30,7 +30,11 @@ const BlogModel = {
 
 module.exports = {
   initialise: (sequelize) => {
-    this.model = sequelize.define("blog", UserModel);
+    this.model = sequelize.define("blog", BlogModel, {
+      timestamps: false,
+      createdAt: false,
+      updatedAt: false,
+    });
   },
 
   createBlog: (blog) => {
@@ -43,19 +47,25 @@ module.exports = {
     });
   },
 
-  updateUser: (query, updatedValue) => {
+  updateBlog: (query, updatedValue) => {
     return this.model.update(updatedValue, {
       where: query,
     });
   },
 
-  findAllUsers: (query) => {
+  findAllBlogsByUser: (query) => {
     return this.model.findAll({
       where: query
     });
   },
 
-  deleteUser: (query) => {
+  deleteBlogsByUser: (query) => {
+    return this.model.destroy({
+      where: query
+    });
+  },
+
+  deleteBlogsById: (query) => {
     return this.model.destroy({
       where: query
     });
