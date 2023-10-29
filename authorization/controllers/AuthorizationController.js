@@ -1,10 +1,12 @@
+require('dotenv').config();
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRATION = process.env.JWT_EXPIRATION || 3600; // 1 hour
+
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const UserModel = require("../../common/models/User");
-
 const { roles } = require("../../config");
-const jwtSecret = process.env.JWT_SECRET;
-const jwtExpirationInSeconds = process.env.JWT_EXPIRATION_SECONDS;
 
 const generateAccessToken = (username, userId) => {
   return jwt.sign(
@@ -12,9 +14,9 @@ const generateAccessToken = (username, userId) => {
       userId,
       username,
     },
-    jwtSecret,
+    JWT_SECRET,
     {
-      expiresIn: jwtExpirationInSeconds,
+      expiresIn: JWT_EXPIRATION,
     }
   );
 };
@@ -29,14 +31,21 @@ module.exports = {
   register: (req, res) => {
     const payload = req.body;
 
+    console.log("Received registration request with payload:", payload);
+
     let encryptedPassword = encryptPassword(payload.password);
     let role = payload.role || roles.USER; // Default role to USER if not provided
+
+    console.log("Encrypted Password:", encryptedPassword);
 
     UserModel.createUser(
       Object.assign(payload, { password: encryptedPassword, role })
     )
       .then((user) => {
+        console.log("User created:", user);
+
         const accessToken = generateAccessToken(payload.username, user.id);
+        console.log("Generated access token:", accessToken);
 
         return res.status(200).json({
           status: true,
@@ -47,13 +56,13 @@ module.exports = {
         });
       })
       .catch((err) => {
+        console.error("Error occurred during registration:", err);
         return res.status(500).json({
           status: false,
           error: err,
         });
       });
   },
-
   login: (req, res) => {
     const { username, password } = req.body;
 

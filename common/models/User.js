@@ -2,10 +2,10 @@ const { DataTypes } = require("sequelize");
 const { roles } = require("../../config");
 
 const UserModel = {
-  id: {
+  user_id: {
     type: DataTypes.INTEGER,
-    autoIncrement: true,
     primaryKey: true,
+    autoIncrement: true,
   },
   username: {
     type: DataTypes.STRING,
@@ -28,16 +28,16 @@ const UserModel = {
   role: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: roles.USER
+    defaultValue: roles.USER,
   },
-  firstName: {
+  first_name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
-  lastName: {
+  last_name: {
     type: DataTypes.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 };
 
 module.exports = {
