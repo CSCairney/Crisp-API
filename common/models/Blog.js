@@ -53,6 +53,12 @@ module.exports = {
     });
   },
 
+  findAllBlogs: (query) => {
+    return this.model.findAll({
+      where: query
+    });
+  },
+
   findAllBlogsByUser: (query) => {
     return this.model.findAll({
       where: query
