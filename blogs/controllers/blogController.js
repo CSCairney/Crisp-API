@@ -1,6 +1,27 @@
 const BlogModel = require("../../common/models/Blog");
 
 module.exports = {
+  newBlog: (req, res) => {
+    const payload = req.body;
+    console.log("Received new blog request with payload:", payload);
+
+    BlogModel.createBlog(payload)
+      .then((blog) => {
+        return res.status(200).json({
+          status: true,
+          data: {
+            blog: blog.toJSON(),
+          },
+        });
+      })
+      .catch((err) => {
+        console.error("Error occurred during new blog generation: ", err);
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
+  },
   getBlog: (req, res) => {
     const {
       blog: { blogId },
