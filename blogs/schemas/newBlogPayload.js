@@ -4,20 +4,22 @@ module.exports = {
   properties: {
     user_id: {
       type: 'number',
-      notNull: true,
     },
     title: {
       type: 'string',
-      notNull: true,
     },
     content: {
         type: 'string',
-        notNull: true,
+    },
+    rating: {
+        type: 'number',
     },
   additionalProperties: false
     },
     required: [
+      'user_id',
       'title',
-      'content'
+      'content',
+      'rating'
     ],
 };

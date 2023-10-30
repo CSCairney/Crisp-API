@@ -5,15 +5,12 @@ module.exports = {
     const payload = req.body;
     console.log("Received new blog request with payload:", payload);
 
-    BlogModel.createBlog(
-      Object.assign(payload)
-    )
-      .then((user) => {
+    BlogModel.createBlog(payload)
+      .then((blog) => {
         return res.status(200).json({
           status: true,
           data: {
-            user: user.toJSON(),
-            token: accessToken,
+            blog: blog.toJSON(),
           },
         });
       })

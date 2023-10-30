@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 const BlogModel = {
-  id: {
+  blog_id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -16,7 +16,7 @@ const BlogModel = {
     allowNull: false,
     unique: false,
   },
-  userId: {
+  user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: false,

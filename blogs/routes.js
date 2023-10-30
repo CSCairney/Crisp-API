@@ -16,7 +16,7 @@ router.get("/", [isAuthenticatedMiddleware.check], BlogController.getBlog);
 
 router.post(
   "/",
-  [SchemaValidationMiddleware.verify(registerPayload)],
+  [SchemaValidationMiddleware.verify(newBlogPayload)],
   BlogController.newBlog
 );
 
