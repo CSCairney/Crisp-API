@@ -14,14 +14,11 @@ const updateBlogPayload = require("./schemas/updateBlogPayload");
 
 router.get("/", [isAuthenticatedMiddleware.check], BlogController.getBlog);
 
-// router.post(
-//   "/",
-//   [
-//     isAuthenticatedMiddleware.check,
-//     SchemaValidationMiddleware.verify(newBlogPayload),
-//   ],
-//   BlogController.newBlog
-// );
+router.post(
+  "/",
+  [SchemaValidationMiddleware.verify(registerPayload)],
+  BlogController.newBlog
+);
 
 router.get(
   "/all",
