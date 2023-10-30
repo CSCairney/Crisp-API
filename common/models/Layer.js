@@ -6,19 +6,19 @@ const LayerModel = {
     autoIncrement: true,
     primaryKey: true,
   },
-  layerGroup: {
+  layer: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  groupType: {
+  grouptype: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  mapType: {
+  maptype: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  markers: {
+  details: {
     type: DataTypes.JSONB,
     allowNull: false,
   },

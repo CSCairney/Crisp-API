@@ -101,6 +101,7 @@ module.exports = {
   },
 
   getAllLayers: (req, res) => {
+    console.table(req.query);
     LayerModel.findAllLayers(req.query)
       .then((layers) => {
         return res.status(200).json({
@@ -109,6 +110,7 @@ module.exports = {
         });
       })
       .catch((err) => {
+        console.error(err)
         return res.status(500).json({
           status: false,
           error: err,
