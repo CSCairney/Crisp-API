@@ -16,10 +16,12 @@ const DB_HOST = process.env.DB_HOST;
 const AuthorizationRoutes = require("./authorization/routes");
 const UserRoutes = require("./users/routes");
 const BlogRoutes = require("./blogs/routes");
+const LayerRoutes = require("./layers/routes");
 
 // Sequelize model imports
 const UserModel = require("./common/models/User");
 const BlogModel = require("./common/models/Blog");
+const LayerModel = require("./common/models/Layer");
 
 app.use(morgan("tiny"));
 app.use(cors());
@@ -33,6 +35,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 // Initialising the Model on sequelize
 UserModel.initialise(sequelize);
 BlogModel.initialise(sequelize);
+LayerModel.initialise(sequelize);
 
 // Syncing the models that are defined on sequelize with the tables that already exist
 sequelize.sync()
@@ -42,6 +45,7 @@ sequelize.sync()
     app.use("/", AuthorizationRoutes);
     app.use("/user", UserRoutes);
     app.use("/blog", BlogRoutes);
+    app.use("/layer", LayerRoutes);
 
     app.listen(PORT, () => {
       console.log("Server Listening on PORT:", PORT);
