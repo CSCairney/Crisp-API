@@ -31,21 +31,14 @@ module.exports = {
   register: (req, res) => {
     const payload = req.body;
 
-    console.log("Received registration request with payload:", payload);
-
     let encryptedPassword = encryptPassword(payload.password);
     let role = payload.role || roles.USER; // Default role to USER if not provided
-
-    console.log("Encrypted Password:", encryptedPassword);
 
     UserModel.createUser(
       Object.assign(payload, { password: encryptedPassword, role })
     )
       .then((user) => {
-        console.log("User created:", user);
-
         const accessToken = generateAccessToken(payload.username, user.id);
-        console.log("Generated access token:", accessToken);
 
         return res.status(200).json({
           status: true,
@@ -56,7 +49,6 @@ module.exports = {
         });
       })
       .catch((err) => {
-        console.error("Error occurred during registration:", err);
         return res.status(500).json({
           status: false,
           error: err,
