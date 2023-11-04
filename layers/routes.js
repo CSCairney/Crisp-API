@@ -11,7 +11,7 @@ const LayerController = require("./controllers/layerController");
 const newLayerPayload = require("./schemas/newLayerPayload.js");
 const updateLayerPayload = require("./schemas/updateLayerPayload.js");
 
-router.get("/", [isAuthenticatedMiddleware.check], LayerController.getLayer);
+router.get("/:layer", [isAuthenticatedMiddleware.check], LayerController.getLayerByName);
 
 router.post(
   "/",
@@ -23,6 +23,12 @@ router.get(
   "/all",
   [isAuthenticatedMiddleware.check],
   LayerController.getAllLayers
+);
+
+router.get(
+  "/",
+  [isAuthenticatedMiddleware.check],
+  LayerController.getLayerNames
 );
 
 router.patch(
