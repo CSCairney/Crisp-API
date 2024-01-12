@@ -31,13 +31,17 @@ router.patch(
   [
     isAuthenticatedMiddleware.check,
     SchemaValidationMiddleware.verify(updateBlogPayload),
+    CheckPermissionMiddleware.has(roles.ADMIN)
   ],
   BlogController.updateBlog
 );
 
 router.delete(
   "/:blogId",
-  [isAuthenticatedMiddleware.check],
+  [
+    isAuthenticatedMiddleware.check,
+    CheckPermissionMiddleware.has(roles.ADMIN)
+  ],
   BlogController.deleteBlog
 );
 

@@ -3,6 +3,7 @@ const router = require("express").Router();
 // Middleware Imports
 const isAuthenticatedMiddleware = require("../common/middlewares/IsAuthenticatedMiddleware");
 const SchemaValidationMiddleware = require("../common/middlewares/SchemaValidationMiddleware");
+const CheckPermissionMiddleware = require("../common/middlewares/CheckPermissionMiddleware");
 
 // Controller Imports
 const LayerController = require("./controllers/layerController");
@@ -11,11 +12,16 @@ const LayerController = require("./controllers/layerController");
 const newLayerPayload = require("./schemas/newLayerPayload.js");
 const updateLayerPayload = require("./schemas/updateLayerPayload.js");
 
+const { roles } = require("../config");
+
 router.get("/:layer", [isAuthenticatedMiddleware.check], LayerController.getLayerByName);
 
 router.post(
   "/",
-  [SchemaValidationMiddleware.verify(newLayerPayload)],
+  [
+    SchemaValidationMiddleware.verify(newLayerPayload),
+    CheckPermissionMiddleware.has(roles.ADMIN),
+  ],
   LayerController.newLayer
 );
 
@@ -35,6 +41,7 @@ router.patch(
   "/update/:layerId",
   [
     isAuthenticatedMiddleware.check,
+    CheckPermissionMiddleware.has(roles.ADMIN),
     SchemaValidationMiddleware.verify(updateLayerPayload),
   ],
   LayerController.updateLayer
@@ -42,7 +49,10 @@ router.patch(
 
 router.delete(
   "/:layerId",
-  [isAuthenticatedMiddleware.check],
+  [
+    isAuthenticatedMiddleware.check,
+    CheckPermissionMiddleware.has(roles.ADMIN),
+  ],
   LayerController.deleteLayer
 );
 
