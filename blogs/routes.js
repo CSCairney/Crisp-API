@@ -33,7 +33,6 @@ router.patch(
   "/update/:blogId",
   [
     isAuthenticatedMiddleware.check,
-    SchemaValidationMiddleware.verify(updateBlogContentPayload),
     CheckPermissionMiddleware.has(roles.USER)
   ],
   BlogController.updateBlog
