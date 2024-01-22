@@ -2,9 +2,6 @@
 module.exports = {
     type: 'object',
     properties: {
-      id: {
-        type: "string",
-      },
       title: {
         type: 'string',
       },
@@ -14,7 +11,6 @@ module.exports = {
     additionalProperties: false
       },
       required: [
-        'user_id',
         'title',
         'content',
       ],

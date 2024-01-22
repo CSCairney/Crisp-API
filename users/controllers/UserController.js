@@ -6,7 +6,7 @@ module.exports = {
       user: { userId },
     } = req;
 
-    UserModel.findUser({ id: userId })
+    UserModel.findUser({ user_id: userId })
       .then((user) => {
         return res.status(200).json({
           status: true,
@@ -38,9 +38,9 @@ module.exports = {
       });
     }
 
-    UserModel.updateUser({ id: userId }, payload)
+    UserModel.updateUser({ user_id: userId }, payload)
       .then(() => {
-        return UserModel.findUser({ id: userId });
+        return UserModel.findUser({ user_id: userId });
       })
       .then((user) => {
         return res.status(200).json({
@@ -61,7 +61,7 @@ module.exports = {
       params: { userId },
     } = req;
 
-    UserModel.deleteUser({ id: userId })
+    UserModel.deleteUser({ user_id: userId })
       .then((numberOfEntriesDeleted) => {
         return res.status(200).json({
           status: true,
@@ -100,9 +100,9 @@ module.exports = {
       body: { role },
     } = req;
 
-    UserModel.updateUser({ id: userId }, { role })
+    UserModel.updateUser({ user_id: userId }, { role })
       .then(() => {
-        return UserModel.findUser({ id: userId });
+        return UserModel.findUser({ user_id: userId });
       })
       .then((user) => {
         return res.status(200).json({

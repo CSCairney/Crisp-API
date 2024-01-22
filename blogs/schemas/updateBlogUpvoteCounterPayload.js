@@ -2,7 +2,7 @@
 module.exports = {
     type: 'object',
     properties: {
-      id: {
+      blog_id: {
         type: "string",
       },
       title: {

@@ -25,7 +25,7 @@ module.exports = {
       blog: { blogId },
     } = req;
 
-    BlogModel.findBlog({ id: blogId })
+    BlogModel.findBlog({ blog_id: blogId })
       .then((blog) => {
         return res.status(200).json({
           status: true,
@@ -41,38 +41,41 @@ module.exports = {
   },
 
   updateBlog: (req, res) => {
-    const {
-      blogId: { blogId },
-      body: payload,
-    } = req;
-
-    // IF the payload does not have any keys,
-    // THEN we can return an error, as nothing can be updated
-    if (!Object.keys(payload).length) {
-      return res.status(400).json({
-        status: false,
-        error: {
-          message: "Body is empty, hence can not update the user.",
-        },
-      });
+    const blogId = req.params.blogId;
+    const { title, content, user_id, rating, tags, comments } = req.body;
+  
+    try {
+      const existingBlog = BlogModel.findBlog({ blog_id: blogId });
+  
+      if (!existingBlog) {
+        return res.status(404).json({ error: 'Blog not found' });
+      }
+  
+      // Construct the query for update
+      const query = { blog_id: blogId };
+      
+      // Construct the updated values
+      const updatedValues = {
+        title: title || existingBlog.title, // Use existing title if not provided in the request
+        content: content || existingBlog.content, // Use existing content if not provided in the request
+        user_id: user_id || existingBlog.user_id, // Use existing user_id if not provided in the request
+        rating: rating || existingBlog.rating, // Use existing rating if not provided in the request
+        tags: tags || existingBlog.tags, // Use existing tags if not provided in the request
+        comments: comments || existingBlog.comments, // Use existing comments if not provided in the request
+      };
+  
+      // Update the blog
+      const result = BlogModel.updateBlog({blog_id: blogId}, updatedValues);
+  
+      if (result[0] === 1) {
+        return res.status(200).json({ message: 'Blog updated successfully' });
+      } else {
+        return res.status(500).json({ error: 'Failed to update blog' });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    BlogModel.updateBlog({ id: blogId }, payload)
-      .then(() => {
-        return BlogModel.findBlog({ id: blogId });
-      })
-      .then((blog) => {
-        return res.status(200).json({
-          status: true,
-          data: blog.toJSON(),
-        });
-      })
-      .catch((err) => {
-        return res.status(500).json({
-          status: false,
-          error: err,
-        });
-      });
   },
 
   deleteBlog: (req, res) => {
@@ -80,7 +83,7 @@ module.exports = {
       params: { blogId },
     } = req;
 
-    BlogModel.deleteBlog({ id: blogId })
+    BlogModel.deleteBlog({ blog_id: blogId })
       .then((numberOfEntriesDeleted) => {
         return res.status(200).json({
           status: true,
@@ -164,9 +167,9 @@ module.exports = {
       });
     }
 
-    BlogModel.updateRatingById({ id: blogId }, payload)
+    BlogModel.updateRatingById({ blog_id: blogId }, payload)
       .then(() => {
-        return BlogModel.findBlog({ id: blogId });
+        return BlogModel.findBlog({ blog_id: blogId });
       })
       .then((blog) => {
         return res.status(200).json({
@@ -199,9 +202,9 @@ module.exports = {
       });
     }
 
-    BlogModel.updateCommentsById({ id: blogId }, payload)
+    BlogModel.updateCommentsById({ blog_id: blogId }, payload)
       .then(() => {
-        return BlogModel.findBlog({ id: blogId });
+        return BlogModel.findBlog({ blog_id: blogId });
       })
       .then((blog) => {
         return res.status(200).json({
@@ -234,9 +237,9 @@ module.exports = {
       });
     }
 
-    BlogModel.updateTagsById({ id: blogId }, payload)
+    BlogModel.updateTagsById({ blog_id: blogId }, payload)
       .then(() => {
-        return BlogModel.findBlog({ id: blogId });
+        return BlogModel.findBlog({ blog_id: blogId });
       })
       .then((blog) => {
         return res.status(200).json({
@@ -269,9 +272,9 @@ module.exports = {
       });
     }
 
-    BlogModel.updateUpvotesById({ id: blogId }, payload)
+    BlogModel.updateUpvotesById({ blog_id: blogId }, payload)
       .then(() => {
-        return BlogModel.findBlog({ id: blogId });
+        return BlogModel.findBlog({ blog_id: blogId });
       })
       .then((blog) => {
         return res.status(200).json({

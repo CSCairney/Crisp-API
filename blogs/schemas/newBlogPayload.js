@@ -14,7 +14,7 @@ module.exports = {
     rating: {
         type: 'number',
     },
-    upcote_counter: {
+    upvote_counter: {
         type: 'number',
     },
     tags: {
@@ -30,7 +30,7 @@ module.exports = {
       'title',
       'content',
       'rating',
-      'upcote_counter',
+      'upvote_counter',
       'tags',
       'comments',
     ],
