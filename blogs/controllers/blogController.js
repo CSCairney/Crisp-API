@@ -112,4 +112,143 @@ module.exports = {
         });
       });
   },
+
+  getAllBlogsByUser: (req, res) => {
+    BlogModel.findAllBlogsByUser(req.query)
+      .then((users) => {
+        return res.status(200).json({
+          status: true,
+          data: users,
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
+  },
+
+  deleteBlogsByUser: (req, res) => {
+    BlogModel.deleteBlogsByUser(req.query)
+      .then((numberOfEntriesDeleted) => {
+        return res.status(200).json({
+          status: true,
+          data: {
+            numberOfBlogsDeleted: numberOfEntriesDeleted
+          },
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
+  },
+
+  updateRatingById: (req, res) => {
+    const {
+      blogId: { blogId },
+      body: payload,
+    } = req;
+
+    // IF the payload does not have any keys,
+    // THEN we can return an error, as nothing can be updated
+    if (!Object.keys(payload).length) {
+      return res.status(400).json({
+        status: false,
+        error: {
+          message: "Body is empty, hence can not update the Rating.",
+        },
+      });
+    }
+
+    BlogModel.updateRatingById({ id: blogId }, payload)
+      .then(() => {
+        return BlogModel.findBlog({ id: blogId });
+      })
+      .then((blog) => {
+        return res.status(200).json({
+          status: true,
+          data: blog.toJSON(),
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
+  },
+
+  updateCommentsById: (req, res) => {
+    const {
+      blogId: { blogId },
+      body: payload,
+    } = req;
+
+    // IF the payload does not have any keys,
+    // THEN we can return an error, as nothing can be updated
+    if (!Object.keys(payload).length) {
+      return res.status(400).json({
+        status: false,
+        error: {
+          message: "Body is empty, hence can not update the Comments.",
+        },
+      });
+    }
+
+    BlogModel.updateCommentsById({ id: blogId }, payload)
+      .then(() => {
+        return BlogModel.findBlog({ id: blogId });
+      })
+      .then((blog) => {
+        return res.status(200).json({
+          status: true,
+          data: blog.toJSON(),
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
+  },
+
+  updateTagsById: (req, res) => {
+    const {
+      blogId: { blogId },
+      body: payload,
+    } = req;
+
+    // IF the payload does not have any keys,
+    // THEN we can return an error, as nothing can be updated
+    if (!Object.keys(payload).length) {
+      return res.status(400).json({
+        status: false,
+        error: {
+          message: "Body is empty, hence can not update the Tags.",
+        },
+      });
+    }
+
+    BlogModel.updateTagsById({ id: blogId }, payload)
+      .then(() => {
+        return BlogModel.findBlog({ id: blogId });
+      })
+      .then((blog) => {
+        return res.status(200).json({
+          status: true,
+          data: blog.toJSON(),
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
+  }
 };

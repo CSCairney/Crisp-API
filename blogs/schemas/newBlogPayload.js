@@ -14,12 +14,24 @@ module.exports = {
     rating: {
         type: 'number',
     },
+    upcote_counter: {
+        type: 'number',
+    },
+    tags: {
+      type: 'array',
+    },
+    comments: {
+      type: 'array',
+    },
   additionalProperties: false
     },
     required: [
       'user_id',
       'title',
       'content',
-      'rating'
+      'rating',
+      'upcote_counter',
+      'tags',
+      'comments',
     ],
 };

@@ -10,7 +10,7 @@ const BlogController = require("./controllers/blogController");
 
 // JSON Schema Imports for payload verification
 const newBlogPayload = require("./schemas/newBlogPayload");
-const updateBlogPayload = require("./schemas/updateBlogPayload");
+const updateBlogContentPayload = require("./schemas/updateBlogContentPayload");
 
 router.get("/", [isAuthenticatedMiddleware.check], BlogController.getBlog);
 
@@ -30,7 +30,7 @@ router.patch(
   "/update/:blogId",
   [
     isAuthenticatedMiddleware.check,
-    SchemaValidationMiddleware.verify(updateBlogPayload),
+    SchemaValidationMiddleware.verify(updateBlogContentPayload),
     CheckPermissionMiddleware.has(roles.ADMIN)
   ],
   BlogController.updateBlog

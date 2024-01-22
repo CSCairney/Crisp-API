@@ -25,7 +25,24 @@ const BlogModel = {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: false,
+        defaultValue: 0,
    },
+   upvote_counter: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: false,
+        defaultValue: 0,
+   },
+    tags: {
+          type: DataTypes.ARRAY(DataTypes.STRING),
+          allowNull: false,
+          unique: false,
+    },
+    comments: {
+          type: DataTypes.ARRAY(DataTypes.STRING),
+          allowNull: true,
+          unique: false,
+    },
 };
 
 module.exports = {
@@ -75,5 +92,23 @@ module.exports = {
     return this.model.destroy({
       where: query
     });
+  },
+
+  updateRatingById: (query, updatedValue) => {
+    return this.model.update(updatedValue, {
+      where: query,
+    });
+  },
+
+  updateTagsById: (query, updatedValue) => {
+    return this.model.update(updatedValue, {
+      where: query,
+    });
+  },
+
+  updateCommentsById: (query, updatedValue) => {
+    return this.model.update(updatedValue, {
+      where: query,
+    });
   }
-};
+  }

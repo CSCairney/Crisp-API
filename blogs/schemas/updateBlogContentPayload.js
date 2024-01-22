@@ -12,5 +12,10 @@ module.exports = {
           type: 'string',
       },
     additionalProperties: false
-      }
+      },
+      required: [
+        'user_id',
+        'title',
+        'content',
+      ],
   };
