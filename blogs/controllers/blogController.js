@@ -147,7 +147,7 @@ module.exports = {
       });
   },
 
-  updateRatingById: (req, res) => {
+  updateRating: (req, res) => {
     const {
       blogId: { blogId },
       body: payload,
@@ -182,7 +182,7 @@ module.exports = {
       });
   },
 
-  updateCommentsById: (req, res) => {
+  updateComments: (req, res) => {
     const {
       blogId: { blogId },
       body: payload,
@@ -217,7 +217,7 @@ module.exports = {
       });
   },
 
-  updateTagsById: (req, res) => {
+  updateTags: (req, res) => {
     const {
       blogId: { blogId },
       body: payload,
@@ -235,6 +235,41 @@ module.exports = {
     }
 
     BlogModel.updateTagsById({ id: blogId }, payload)
+      .then(() => {
+        return BlogModel.findBlog({ id: blogId });
+      })
+      .then((blog) => {
+        return res.status(200).json({
+          status: true,
+          data: blog.toJSON(),
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
+  },
+
+  updateUpvotes: (req, res) => {
+    const {
+      blogId: { blogId },
+      body: payload,
+    } = req;
+
+    // IF the payload does not have any keys,
+    // THEN we can return an error, as nothing can be updated
+    if (!Object.keys(payload).length) {
+      return res.status(400).json({
+        status: false,
+        error: {
+          message: "Body is empty, hence can not update the Upvotes.",
+        },
+      });
+    }
+
+    BlogModel.updateUpvotesById({ id: blogId }, payload)
       .then(() => {
         return BlogModel.findBlog({ id: blogId });
       })

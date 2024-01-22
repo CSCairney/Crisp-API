@@ -13,6 +13,7 @@ const newBlogPayload = require("./schemas/newBlogPayload");
 const newBlogCommentPayload = require("./schemas/newBlogCommentPayload");
 const updateBlogContentPayload = require("./schemas/updateBlogContentPayload");
 const updateBlogUpvoteCounterPayload = require("./schemas/updateBlogUpvoteCounterPayload");
+const { roles } = require("../config");
 
 router.get("/", [isAuthenticatedMiddleware.check], BlogController.getBlog);
 
@@ -49,7 +50,7 @@ router.patch(
   [isAuthenticatedMiddleware.check,
     SchemaValidationMiddleware.verify(updateBlogUpvoteCounterPayload),
     CheckPermissionMiddleware.has(roles.USER)],
-  BlogController.updateUpvote
+  BlogController.updateUpvotes
 );
 
 router.patch(
@@ -59,7 +60,7 @@ router.patch(
     SchemaValidationMiddleware.verify(newBlogCommentPayload),
     CheckPermissionMiddleware.has(roles.USER)
   ],
-  BlogController.updateComment
+  BlogController.updateComments
 );
 
 router.delete(
