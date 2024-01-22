@@ -34,7 +34,7 @@ router.patch(
   [
     isAuthenticatedMiddleware.check,
     SchemaValidationMiddleware.verify(updateBlogContentPayload),
-    CheckPermissionMiddleware.has(roles.ADMIN)
+    CheckPermissionMiddleware.has(roles.USER)
   ],
   BlogController.updateBlog
 );
